@@ -11,6 +11,8 @@ function App() {
   const [notes, setNotes] = useState<NoteModel[]>([]);
 
   const [showAddNoteDialog, setShowAddNoteDialog] = useState(false);
+  const [noteToEdit, setNoteToEdit] = useState<NoteModel|null>(null);
+
   const loadNotes = async() => {
     try {
       const notes = await NotesApi.fetchNotes();
@@ -46,6 +48,7 @@ function App() {
             <Note 
               note={note} className={styles.note} 
               onDeleteNoteClicked={deleteNote}
+              onNoteClicked={setNoteToEdit}
             />
           </Col>
         ))}
@@ -53,7 +56,21 @@ function App() {
       {
         showAddNoteDialog && 
         <AddNodeDialog onDismiss={() => setShowAddNoteDialog(false)}
-          onNoteSaved={() => {}}
+          onNoteSaved={(newNote) => {
+            setNotes([...notes, newNote])
+            setShowAddNoteDialog(false);
+          }}
+        />
+      }
+      {
+        noteToEdit &&
+        <AddNodeDialog 
+          noteToEdit={noteToEdit}
+          onDismiss={() => setNoteToEdit(null)}
+          onNoteSaved={(updatedNote) => {
+            setNotes(notes.map(existingNote => existingNote._id === updatedNote._id ? updatedNote : existingNote))
+            setNoteToEdit(null);
+          }}
         />
       }
     </Container>
