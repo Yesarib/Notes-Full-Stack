@@ -1,5 +1,6 @@
 # Notes Full Stack
 This project is a simple note-taking application developed using Node.js, TypeScript, React, and MongoDB. The project serves as a beginner-level example for those looking to learn TypeScript.
+This project was coded together with the youtube channel "Coding in Flow".
 
 ### Technologies
 - Node.js
